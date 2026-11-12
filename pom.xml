@@ -15,6 +15,7 @@
 	<modules>
 		<module>munidiff</module>
 		<module>modiff</module>
+		<module>munidiff-tests</module>
 		<module>munidiff-emfcompare</module>
 	</modules>
 
