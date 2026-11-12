@@ -16,4 +16,12 @@
 
 	<name>munidiff</name>
 	<description>Model differences representation with textual and/or graphical reporting</description>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+			<version>2.40.0</version>
+		</dependency>
+	</dependencies>
 </project>
