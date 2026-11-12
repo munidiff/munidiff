@@ -40,6 +40,7 @@ import es.unican.munidiff.Difference;
 import es.unican.munidiff.Munidiff;
 import es.unican.munidiff.MunidiffFactory;
 import es.unican.munidiff.RemovedElement;
+import es.unican.munidiff.modiff.differences.DifferencesFinder;
 import es.unican.munidiff.modiff.matcher.IdMatcher;
 import es.unican.munidiff.modiff.matcher.Matcher;
 import es.unican.munidiff.modiff.reporting.MatcherBasedLabelProvider;
@@ -369,7 +370,7 @@ public class Modiff {
 		}
 	}
 
-	protected ChangedElement createChangedElement(EObject removedElement, EObject addedElement, Matcher matcher) {
+	protected ChangedElement createChangedElement(EObject removedElement, EObject addedElement) {
 		ChangedElement changed = munidiffFactory.createChangedElement();
 
 		changed.setIdentifier(matcher.getIdentifier(removedElement));
@@ -381,10 +382,12 @@ public class Modiff {
 
 	protected void registerChangedElement(EObject removedElement, EObject addedElement) {
 
-		ChangedElement changedElement = createChangedElement(removedElement, addedElement, matcher);
+		List<EStructuralFeature> changedFeatures = getChangedFeatures(removedElement, addedElement);
 
 		// it could be a false positive due to line format changes
-		if (changedElement.hasDifferences()) {
+		if (!changedFeatures.isEmpty()) {
+			ChangedElement changedElement = createChangedElement(removedElement, addedElement);
+			changedElement.getChangedFeatures().addAll(changedFeatures);
 			differences.add(changedElement);
 
 			// when an element is moved to a different container,
@@ -403,9 +406,11 @@ public class Modiff {
 							EObject toContainer = findElement(matcher.getIdentifier(fromValue), toModel).eContainer();
 							EObject fromContainer = findElement(matcher.getIdentifier(toContainer), fromModel);
 
-							ChangedElement changedContainer = createChangedElement(fromContainer, toContainer, matcher);
+							List<EStructuralFeature> containerChangedFeatures = getChangedFeatures(fromContainer, toContainer);
 
-							if (changedContainer.hasDifferences()) {
+							if (!containerChangedFeatures.isEmpty()) {
+								ChangedElement changedContainer = createChangedElement(fromContainer, toContainer);
+								changedContainer.getChangedFeatures().addAll(containerChangedFeatures);
 								differences.add(changedContainer);
 							}
 						}
@@ -422,9 +427,11 @@ public class Modiff {
 							EObject fromContainer = findElement(matcher.getIdentifier(toValue), fromModel).eContainer();
 							EObject toContainer = findElement(matcher.getIdentifier(fromContainer), toModel);
 
-							ChangedElement changedContainer = createChangedElement(fromContainer, toContainer, matcher);
+							List<EStructuralFeature> containerChangedFeatures = getChangedFeatures(fromContainer, toContainer);
 
-							if (changedContainer.hasDifferences()) {
+							if (!containerChangedFeatures.isEmpty()) {
+								ChangedElement changedContainer = createChangedElement(fromContainer, toContainer);
+								changedContainer.getChangedFeatures().addAll(containerChangedFeatures);
 								differences.add(changedContainer);
 							}
 						}
@@ -432,6 +439,10 @@ public class Modiff {
 				}
 			}
 		}
+	}
+
+	protected List<EStructuralFeature> getChangedFeatures(EObject removedElement, EObject addedElement) {
+		return new DifferencesFinder(matcher).getChangedFeatures(removedElement, addedElement);
 	}
 
 	protected EObject findElement(String identifier, Resource model) {

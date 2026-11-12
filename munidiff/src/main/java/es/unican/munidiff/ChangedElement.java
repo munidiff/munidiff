@@ -82,12 +82,4 @@ public interface ChangedElement extends Difference {
 	 */
 	EList<EStructuralFeature> getChangedFeatures();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	boolean hasDifferences();
-
 } // ChangedElement

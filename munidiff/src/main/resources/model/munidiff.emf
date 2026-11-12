@@ -24,6 +24,4 @@ class ChangedElement extends Difference {
 	ref EObject[1] fromElement;
 	ref EObject[1] toElement;
 	ref ecore.EStructuralFeature[*] changedFeatures;
-	
-	op boolean hasDifferences();
 }

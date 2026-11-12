@@ -12,7 +12,6 @@ import es.unican.munidiff.RemovedElement;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -266,16 +265,6 @@ public class MunidiffPackageImpl extends EPackageImpl implements MunidiffPackage
 	 * @generated
 	 */
 	@Override
-	public EOperation getChangedElement__HasDifferences() {
-		return changedElementEClass.getEOperations().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public MunidiffFactory getMunidiffFactory() {
 		return (MunidiffFactory)getEFactoryInstance();
 	}
@@ -317,7 +306,6 @@ public class MunidiffPackageImpl extends EPackageImpl implements MunidiffPackage
 		createEReference(changedElementEClass, CHANGED_ELEMENT__FROM_ELEMENT);
 		createEReference(changedElementEClass, CHANGED_ELEMENT__TO_ELEMENT);
 		createEReference(changedElementEClass, CHANGED_ELEMENT__CHANGED_FEATURES);
-		createEOperation(changedElementEClass, CHANGED_ELEMENT___HAS_DIFFERENCES);
 	}
 
 	/**
@@ -371,8 +359,6 @@ public class MunidiffPackageImpl extends EPackageImpl implements MunidiffPackage
 		initEReference(getChangedElement_FromElement(), ecorePackage.getEObject(), null, "fromElement", null, 1, 1, ChangedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getChangedElement_ToElement(), ecorePackage.getEObject(), null, "toElement", null, 1, 1, ChangedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getChangedElement_ChangedFeatures(), ecorePackage.getEStructuralFeature(), null, "changedFeatures", null, 0, -1, ChangedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEOperation(getChangedElement__HasDifferences(), ecorePackage.getEBoolean(), "hasDifferences", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

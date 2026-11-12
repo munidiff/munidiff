@@ -4,7 +4,6 @@ package es.unican.munidiff;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -297,22 +296,13 @@ public interface MunidiffPackage extends EPackage {
 	int CHANGED_ELEMENT_FEATURE_COUNT = DIFFERENCE_FEATURE_COUNT + 3;
 
 	/**
-	 * The operation id for the '<em>Has Differences</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CHANGED_ELEMENT___HAS_DIFFERENCES = DIFFERENCE_OPERATION_COUNT + 0;
-
-	/**
 	 * The number of operations of the '<em>Changed Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHANGED_ELEMENT_OPERATION_COUNT = DIFFERENCE_OPERATION_COUNT + 1;
+	int CHANGED_ELEMENT_OPERATION_COUNT = DIFFERENCE_OPERATION_COUNT + 0;
 
 
 	/**
@@ -465,16 +455,6 @@ public interface MunidiffPackage extends EPackage {
 	EReference getChangedElement_ChangedFeatures();
 
 	/**
-	 * Returns the meta object for the '{@link es.unican.munidiff.ChangedElement#hasDifferences() <em>Has Differences</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Has Differences</em>' operation.
-	 * @see es.unican.munidiff.ChangedElement#hasDifferences()
-	 * @generated
-	 */
-	EOperation getChangedElement__HasDifferences();
-
-	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -618,14 +598,6 @@ public interface MunidiffPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CHANGED_ELEMENT__CHANGED_FEATURES = eINSTANCE.getChangedElement_ChangedFeatures();
-
-		/**
-		 * The meta object literal for the '<em><b>Has Differences</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation CHANGED_ELEMENT___HAS_DIFFERENCES = eINSTANCE.getChangedElement__HasDifferences();
 
 	}
 

@@ -4,9 +4,6 @@ package es.unican.munidiff.impl;
 
 import es.unican.munidiff.ChangedElement;
 import es.unican.munidiff.MunidiffPackage;
-
-import java.lang.reflect.InvocationTargetException;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -186,18 +183,6 @@ public class ChangedElementImpl extends DifferenceImpl implements ChangedElement
 	 * @generated
 	 */
 	@Override
-	public boolean hasDifferences() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case MunidiffPackage.CHANGED_ELEMENT__FROM_ELEMENT:
@@ -272,20 +257,6 @@ public class ChangedElementImpl extends DifferenceImpl implements ChangedElement
 				return changedFeatures != null && !changedFeatures.isEmpty();
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
-		switch (operationID) {
-			case MunidiffPackage.CHANGED_ELEMENT___HAS_DIFFERENCES:
-				return hasDifferences();
-		}
-		return super.eInvoke(operationID, arguments);
 	}
 
 } //ChangedElementImpl
