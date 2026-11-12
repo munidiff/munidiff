@@ -3,10 +3,12 @@ package es.unican.munidiff.modiff;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -76,29 +78,15 @@ public class Modiff {
 		FROM, TO
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
+		registerEcore("/models/comics/comicshop.ecore");
 
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
-				"*", new XMIResourceFactoryImpl());
-		ResourceSet ecoreResourceSet = new ResourceSetImpl();
+		String fromContent = readResource("/models/comics/base.model");
+		String toContent = readResource("/models/comics/left.model");
 
-		String[] ecoreFiles = { "models/comics/comicshop.ecore" };
-		for (String ecoreFile : ecoreFiles) {
-			Resource ecoreResource = ecoreResourceSet.createResource(
-					URI.createFileURI(new File(ecoreFile).getAbsolutePath()));
-			ecoreResource.load(null);
-
-			for (EObject o : ecoreResource.getContents()) {
-				EPackage ePackage = (EPackage) o;
-				EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
-			}
-		}
-
-		Modiff modiff = new Modiff("models/comics/base.model", "models/comics/left.model");
-
+		Modiff modiff = new Modiff("comics", fromContent, toContent);
 		Matcher matcher = new IdMatcher();
 		modiff.setMatcher(matcher);
-
 		modiff.compare();
 
 		LabelProvider labelProvider = new MatcherBasedLabelProvider(matcher);
@@ -106,6 +94,35 @@ public class Modiff {
 		System.out.println(new UnifiedDiffFormatter(modiff.getMunidiff(), labelProvider).format());
 		System.out.println("**************************************************");
 		System.out.println(new PlantumlFormatter(modiff.getMunidiff(), labelProvider).format());
+	}
+
+	private static void registerEcore(String ecorePath) throws IOException {
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
+				"*", new XMIResourceFactoryImpl());
+
+		ResourceSet resourceSet = new ResourceSetImpl();
+		Resource ecoreResource = resourceSet.createResource(URI.createURI(ecorePath));
+
+		try (InputStream in = Modiff.class.getResourceAsStream(ecorePath)) {
+			if (in == null) {
+				throw new IOException("Ecore not found on classpath: " + ecorePath);
+			}
+			ecoreResource.load(in, null);
+		}
+
+		for (EObject o : ecoreResource.getContents()) {
+			EPackage ePackage = (EPackage) o;
+			EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
+		}
+	}
+
+	private static String readResource(String path) throws IOException {
+		try (InputStream in = Modiff.class.getResourceAsStream(path)) {
+			if (in == null) {
+				throw new IOException("Resource not found on classpath: " + path);
+			}
+			return new String(in.readAllBytes(), StandardCharsets.UTF_8);
+		}
 	}
 
 	protected String fromModelFile;
