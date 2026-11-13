@@ -1,4 +1,4 @@
-package es.unican.munidiff.modiff.matcher;
+package es.unican.munidiff.matcher;
 
 import java.util.HashMap;
 import java.util.Map;

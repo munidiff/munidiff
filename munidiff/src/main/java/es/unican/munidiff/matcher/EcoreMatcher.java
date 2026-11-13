@@ -1,4 +1,4 @@
-package es.unican.munidiff.modiff.matcher;
+package es.unican.munidiff.matcher;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.ENamedElement;

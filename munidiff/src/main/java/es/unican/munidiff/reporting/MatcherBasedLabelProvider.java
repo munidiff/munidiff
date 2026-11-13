@@ -1,10 +1,12 @@
-package es.unican.munidiff.modiff.reporting;
+package es.unican.munidiff.reporting;
 
 import org.eclipse.emf.ecore.EObject;
 
-import es.unican.munidiff.modiff.matcher.Matcher;
-import es.unican.munidiff.reporting.LabelProvider;
+import es.unican.munidiff.matcher.Matcher;
 
+/**
+ * Uses the matcher identifier as label in difference reports
+ */
 public class MatcherBasedLabelProvider implements LabelProvider {
 
 	protected Matcher matcher;

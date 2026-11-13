@@ -42,11 +42,11 @@ import es.unican.munidiff.Difference;
 import es.unican.munidiff.Munidiff;
 import es.unican.munidiff.MunidiffFactory;
 import es.unican.munidiff.RemovedElement;
-import es.unican.munidiff.modiff.differences.DifferencesFinder;
-import es.unican.munidiff.modiff.matcher.IdMatcher;
-import es.unican.munidiff.modiff.matcher.Matcher;
-import es.unican.munidiff.modiff.reporting.MatcherBasedLabelProvider;
+import es.unican.munidiff.differences.DifferencesFinder;
+import es.unican.munidiff.matcher.IdMatcher;
+import es.unican.munidiff.matcher.Matcher;
 import es.unican.munidiff.reporting.LabelProvider;
+import es.unican.munidiff.reporting.MatcherBasedLabelProvider;
 import es.unican.munidiff.reporting.graphical.PlantumlFormatter;
 import es.unican.munidiff.reporting.textual.UnifiedDiffFormatter;
 import io.reflectoring.diffparser.api.UnifiedDiffParser;
@@ -57,10 +57,10 @@ import io.reflectoring.diffparser.api.model.Line;
 /**
  * Line-based comparator of models. Starting from the command: <br/>
  * 
- * 
  * <br/>
  * 
  * diff -u fromModelFile toModelFile <br/>
+ * 
  * <br/>
  * 
  * Equivalences: <br/>

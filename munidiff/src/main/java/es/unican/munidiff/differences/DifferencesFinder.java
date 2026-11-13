@@ -1,4 +1,4 @@
-package es.unican.munidiff.modiff.differences;
+package es.unican.munidiff.differences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +9,14 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
 
-import es.unican.munidiff.modiff.matcher.Matcher;
+import es.unican.munidiff.ChangedElement;
+import es.unican.munidiff.matcher.Matcher;
 
 /**
  * Equality helper that compares the EObject features that are serialised into
- * the starting XML tag, i.e., EAttributes and non-containment EReferences
+ * the starting XML tag, i.e., EAttributes and non-containment EReferences.
+ * 
+ * Used to fill the changed features of a {@link ChangedElement}
  */
 public class DifferencesFinder extends EqualityHelper {
 
