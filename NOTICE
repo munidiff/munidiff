@@ -1,0 +1,25 @@
+https://github.com/munidiff/munidiff
+
+Copyright (c) 2026 Universidad de Cantabria and contributors
+
+This repository is licensed under the Apache License, Version 2.0
+(see LICENSE), with the following exception:
+
+The EMF Compare test code and fixtures under
+
+    munidiff-tests/src/test/java/es/unican/munidiff/emfcompare/test/
+
+are licensed under the Eclipse Public License 1.0 (see LICENSE-EPL-1.0).
+
+That test material is derived from EMF Compare and includes the original
+copyright notices:
+
+    Copyright (c) 2012, 2014 Obeo.
+    Contributors: Obeo - initial API and implementation
+
+See the individual file headers in that directory for details.
+
+All other source code, documentation and resources in this repository are
+licensed under the Apache License, Version 2.0.
+
+Third-party dependencies remain under their respective licenses.
