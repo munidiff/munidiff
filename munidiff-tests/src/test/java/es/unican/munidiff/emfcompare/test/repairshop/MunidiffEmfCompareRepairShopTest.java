@@ -1,0 +1,234 @@
+package es.unican.munidiff.emfcompare.test.repairshop;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Collections;
+import java.util.List;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.scope.DefaultComparisonScope;
+import org.eclipse.emf.compare.scope.IComparisonScope;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import es.unican.munidiff.emfcompare.EmfCompare2Munidiff;
+import es.unican.munidiff.matcher.IdMatcher;
+import es.unican.munidiff.matcher.Matcher;
+import es.unican.munidiff.AddedElement;
+import es.unican.munidiff.ChangedElement;
+import es.unican.munidiff.Difference;
+import es.unican.munidiff.Munidiff;
+import es.unican.munidiff.reporting.LabelProvider;
+import es.unican.munidiff.reporting.MatcherBasedLabelProvider;
+import es.unican.munidiff.reporting.graphical.PlantumlFormatter;
+import es.unican.munidiff.reporting.textual.UnifiedDiffFormatter;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+public class MunidiffEmfCompareRepairShopTest {
+
+	protected boolean debug = true;
+
+	protected Munidiff getReport(String leftModel) throws IOException {
+
+		Resource left = getResource(getModelPath(leftModel));
+		Resource right = getResource(getModelPath("00-from"));
+
+		final IComparisonScope scope = new DefaultComparisonScope(left, right, null);
+		final Comparison comparison = EMFCompare.builder().build().compare(scope);
+
+		Matcher matcher = new IdMatcher();
+		Munidiff md = new EmfCompare2Munidiff(matcher).transform(comparison);
+
+		LabelProvider labelProvider = new MatcherBasedLabelProvider(matcher);
+		String textualReport = new UnifiedDiffFormatter(md, labelProvider).format();
+		String graphicalReport = new PlantumlFormatter(md, labelProvider).format();
+
+		if (debug) {
+			System.out.println(leftModel);
+			System.out.println(textualReport);
+			System.out.println("*********************************************");
+			System.out.println(graphicalReport);
+		}
+
+		store(leftModel + "-munidiff.diff", textualReport);
+		store(leftModel + "-munidiff.puml", graphicalReport);
+
+		return md;
+	}
+
+	protected Resource getResource(String model) throws IOException {
+		final URL fileURL = getClass().getResource(model);
+		final InputStream str = fileURL.openStream();
+		final URI uri = URI.createURI(fileURL.toString());
+
+		Resource.Factory resourceFactory = Resource.Factory.Registry.INSTANCE.getFactory(uri);
+		if (resourceFactory == null) {
+			// Most likely a standalone run. Try with a plain XMI resource
+			resourceFactory = new XMIResourceFactoryImpl();
+		}
+
+		// resourceFactory cannot be null
+		Resource res = resourceFactory.createResource(uri);
+		res.load(str, Collections.emptyMap());
+		str.close();
+		return res;
+	}
+
+	public String getModelPath(String modelName) {
+		return String.format("/models/repairshop/%s.model", modelName);
+	}
+
+	protected void store(String testCase, String report) {
+		File outputFolder = new File("target/emfcompare-output/repairShop");
+		if (!outputFolder.exists()) {
+			outputFolder.mkdirs();
+		}
+		File file = new File(outputFolder, testCase);
+
+		try (FileWriter writer = new FileWriter(file)) {
+			writer.write(report);
+		}
+		catch (IOException e) {
+			System.err.println("Error while saving the string to the file: " + e.getMessage());
+		}
+	}
+
+	@BeforeClass
+	public static void fillEMFRegistries() throws IOException {
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
+				"*", new XMIResourceFactoryImpl());
+		ResourceSet ecoreResourceSet = new ResourceSetImpl();
+
+		String ecorePath = "/models/repairshop/repairshop.ecore";
+		Resource ecoreResource = ecoreResourceSet.createResource(URI.createURI(ecorePath));
+
+		try (InputStream in = MunidiffEmfCompareRepairShopTest.class.getResourceAsStream(ecorePath)) {
+			if (in == null) {
+				throw new IOException("Resource not found on classpath: " + ecorePath);
+			}
+			ecoreResource.load(in, null);
+		}
+
+		for (EObject o : ecoreResource.getContents()) {
+			EPackage ePackage = (EPackage) o;
+			EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
+		}
+	}
+
+	protected Difference getDifferenceForId(List<Difference> differences, String id) {
+		for (Difference d : differences) {
+			if (d.getIdentifier().equals(id)) {
+				return d;
+			}
+		}
+		return null;
+	}
+
+	@Test
+	public void test11() throws IOException {
+		Munidiff munidiff = getReport("11-modifyJobDescription");
+
+		List<Difference> differences = munidiff.getDifferences();
+		assert (differences.size() == 1);
+
+		Difference diff = differences.get(0);
+		assert (diff instanceof ChangedElement);
+		assert (((ChangedElement) diff).getChangedFeatures().size() == 1);
+		assert (((ChangedElement) diff).getChangedFeatures().get(0).getName().equals("description"));
+	}
+
+	@Test
+	public void test21() throws IOException {
+		Munidiff munidiff = getReport("21-changeMainSkill");
+
+		List<Difference> differences = munidiff.getDifferences();
+		assert (differences.size() == 1);
+
+		Difference diff = differences.get(0);
+		assert (diff instanceof ChangedElement);
+		assert (((ChangedElement) diff).getChangedFeatures().size() == 1);
+		assert (((ChangedElement) diff).getChangedFeatures().get(0).getName().equals("mainSkill"));
+	}
+
+	@Test
+	public void test31() throws IOException {
+		Munidiff munidiff = getReport("31-addStatus");
+
+		List<Difference> differences = munidiff.getDifferences();
+		assert (differences.size() == 2);
+
+		Difference added = getDifferenceForId(differences, "st2");
+		assert (added != null && added instanceof AddedElement);
+
+		Difference changed = getDifferenceForId(differences, "job2");
+		assert (changed != null && changed instanceof ChangedElement);
+		assert (((ChangedElement) changed).getChangedFeatures().size() == 1);
+		assert (((ChangedElement) changed).getChangedFeatures().get(0).getName().equals("status"));
+	}
+
+	@Test
+	public void test41() throws IOException {
+		Munidiff munidiff = getReport("41-addTag");
+
+		List<Difference> differences = munidiff.getDifferences();
+		assert (differences.size() == 1);
+
+		Difference diff = differences.get(0);
+		assert (diff instanceof ChangedElement);
+		assert (((ChangedElement) diff).getChangedFeatures().size() == 1);
+		assert (((ChangedElement) diff).getChangedFeatures().get(0).getName().equals("tags"));
+	}
+
+	@Test
+	public void test42() throws IOException {
+		Munidiff munidiff = getReport("42-removeTag");
+
+		List<Difference> differences = munidiff.getDifferences();
+		assert (differences.size() == 1);
+
+		Difference diff = differences.get(0);
+		assert (diff instanceof ChangedElement);
+		assert (((ChangedElement) diff).getChangedFeatures().size() == 1);
+		assert (((ChangedElement) diff).getChangedFeatures().get(0).getName().equals("tags"));
+	}
+
+	@Test
+	public void test51() throws IOException {
+		Munidiff munidiff = getReport("51-addSecondarySkill");
+
+		List<Difference> differences = munidiff.getDifferences();
+		assert (differences.size() == 1);
+
+		Difference diff = differences.get(0);
+		assert (diff instanceof ChangedElement);
+		assert (((ChangedElement) diff).getChangedFeatures().size() == 1);
+		assert (((ChangedElement) diff).getChangedFeatures().get(0).getName().equals("secondarySkills"));
+	}
+
+	@Test
+	public void test61() throws IOException {
+		Munidiff munidiff = getReport("61-moveJob");
+
+		List<Difference> differences = munidiff.getDifferences();
+		assert (differences.size() == 2);
+
+		Difference changed = getDifferenceForId(differences, "Alice");
+		assert (changed != null && changed instanceof ChangedElement);
+		assert (((ChangedElement) changed).getChangedFeatures().size() == 1);
+		assert (((ChangedElement) changed).getChangedFeatures().get(0).getName().equals("queue"));
+
+		changed = getDifferenceForId(differences, "Bob");
+		assert (changed != null && changed instanceof ChangedElement);
+		assert (((ChangedElement) changed).getChangedFeatures().size() == 1);
+		assert (((ChangedElement) changed).getChangedFeatures().get(0).getName().equals("queue"));
+	}
+}

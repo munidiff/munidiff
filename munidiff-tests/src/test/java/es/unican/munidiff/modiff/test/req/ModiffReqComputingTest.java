@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package es.unican.munidiff.modiff.test.emfcompare.req;
+package es.unican.munidiff.modiff.test.req;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +34,7 @@ import es.unican.munidiff.matcher.IdMatcher;
 import es.unican.munidiff.matcher.Matcher;
 import es.unican.munidiff.reporting.MatcherBasedLabelProvider;
 import es.unican.munidiff.reporting.textual.UnifiedDiffFormatter;
-import es.unican.munidiff.modiff.test.emfcompare.req.data.ReqInputData;
+import es.unican.munidiff.emfcompare.test.req.data.ReqInputData;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;

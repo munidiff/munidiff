@@ -8,11 +8,11 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package es.unican.munidiff.modiff.test.emfcompare.req.data;
+package es.unican.munidiff.emfcompare.test.req.data;
 
 import java.io.IOException;
 
-import es.unican.munidiff.modiff.test.emfcompare.AbstractInputData;
+import es.unican.munidiff.emfcompare.test.AbstractInputData;
 
 public class ReqInputData extends AbstractInputData {
 

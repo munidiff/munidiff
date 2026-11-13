@@ -21,7 +21,7 @@ import es.unican.munidiff.matcher.Matcher;
 import es.unican.munidiff.reporting.MatcherBasedLabelProvider;
 import es.unican.munidiff.reporting.graphical.PlantumlFormatter;
 import es.unican.munidiff.reporting.textual.UnifiedDiffFormatter;
-import es.unican.munidiff.modiff.test.emfcompare.req.data.ReqInputData;
+import es.unican.munidiff.emfcompare.test.req.data.ReqInputData;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;

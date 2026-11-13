@@ -17,6 +17,20 @@
 	<name>munidiff-tests</name>
 	<description>Tests and fixture models for munidiff and modiff</description>
 
+	<repositories>
+		<repository>
+			<id>github-emf-compare</id>
+			<name>GitHub EMF Compare Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/eclipse-emf-compare/emf-compare</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>es.unican.munidiff</groupId>
@@ -27,6 +41,12 @@
 			<groupId>es.unican.munidiff</groupId>
 			<artifactId>modiff</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>es.unican.munidiff</groupId>
+			<artifactId>munidiff-emfcompare</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -57,6 +77,7 @@
 					<enableAssertions>true</enableAssertions>
 					<excludes>
 						<exclude>**/ModiffAllTests.java</exclude>
+						<exclude>**/MunidiffAllTests.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

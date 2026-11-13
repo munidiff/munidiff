@@ -16,4 +16,31 @@
 
 	<name>munidiff-emfcompare</name>
 	<description>EMF Compare integration for munidiff</description>
+
+	<repositories>
+		<repository>
+			<id>github-emf-compare</id>
+			<name>GitHub EMF Compare Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/eclipse-emf-compare/emf-compare</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>es.unican.munidiff</groupId>
+			<artifactId>munidiff</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf.compare</groupId>
+			<artifactId>org.eclipse.emf.compare</artifactId>
+			<version>3.5.3-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 </project>
