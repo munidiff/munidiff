@@ -14,7 +14,7 @@
 	<artifactId>munidiff</artifactId>
 	<packaging>jar</packaging>
 
-	<name>munidiff</name>
+	<name>Munidiff</name>
 	<description>Model differences representation with textual and/or graphical reporting</description>
 	
 	<dependencies>

@@ -14,7 +14,7 @@
 	<artifactId>modiff</artifactId>
 	<packaging>jar</packaging>
 
-	<name>modiff</name>
+	<name>Modiff</name>
 	<description>Line-based model comparison engine</description>
 
 	<dependencies>

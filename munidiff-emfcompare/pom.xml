@@ -14,7 +14,7 @@
 	<artifactId>munidiff-emfcompare</artifactId>
 	<packaging>jar</packaging>
 
-	<name>munidiff-emfcompare</name>
+	<name>Munidiff EMF Compare</name>
 	<description>EMF Compare integration for munidiff</description>
 
 	<repositories>
