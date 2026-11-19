@@ -17,6 +17,13 @@
 	<name>munidiff-tests</name>
 	<description>Tests and fixture models for munidiff and modiff</description>
 
+	<properties>
+		<maven.source.skip>true</maven.source.skip>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+		<maven.install.skip>true</maven.install.skip>
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>
+
 	<repositories>
 		<repository>
 			<id>github-emf-compare</id>
